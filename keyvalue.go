@@ -11,16 +11,19 @@ type KeyValue struct {
 	mu    sync.RWMutex      // 排他制御のためのmutex
 }
 
+// NewKeyValue generates KeyValue
 func NewKeyValue() *KeyValue {
 	return &KeyValue{store: make(map[string]string)}
 }
 
+// Set stores value
 func (kv *KeyValue) Set(key, val string) {
 	kv.mu.Lock()         // まずLock
 	defer kv.mu.Unlock() // メソッドを抜けた際にUnlock
 	kv.store[key] = val
 }
 
+// Get gets store value from key
 func (kv *KeyValue) Get(key string) (string, bool) {
 	kv.mu.RLock()         // 参照用のRLock
 	defer kv.mu.RUnlock() // メソッドを抜けた際にRUnlock
