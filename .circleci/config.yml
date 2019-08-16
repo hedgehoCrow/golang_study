@@ -3,5 +3,8 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.11.4
+    working_directory: /go/src/github.com/hedgehoCrow/golang_study
     steps:
-      - run: echo "hello world"
+      - checkout
+      - run: go get -v -t -d ./...
+      - run: go test -v ./...
